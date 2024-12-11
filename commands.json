@@ -68,7 +68,20 @@
       },
 
 
-
+      {
+        "category": "moderation",
+        "name": "setupticket",
+        "description": "Ouvrir un ticket",
+        "default_member_permissions": 0,
+        "options": [
+          {
+            "name": "channel",
+            "description": "Le salon où l'embed avec les boutons sera envoyé.",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
       {
         "category": "moderation",
         "name": "kick",

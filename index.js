@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Events, ActivityType, REST, Routes, EmbedBuilder  } = require('discord.js');
+const { Client, GatewayIntentBits,ChannelType, Events, ActivityType, REST, Routes, EmbedBuilder, PermissionsBitField, ButtonBuilder, ButtonStyle, ActionRowBuilder, SlashCommandBuilder  } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 require('dotenv').config();  // Charger les variables d'environnement depuis le fichier .env
