@@ -17,8 +17,17 @@ client.on('interactionCreate', async interaction => {
     // Get time
     else if (commandName === 'heure') {
         const now = new Date();
-        await interaction.reply(`Il est actuellement ${now.toLocaleTimeString()}.`);
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const formattedTime = `${hours}h${minutes}`; // Format : HHhMM
+
+        await interaction.reply({
+            content: `Il est actuellement ${formattedTime}.`,
+            ephemeral: true // Ceci rendra le message éphémère
+        });
     }
+
+
 
     // Get server infos
     else if (commandName === 'infos') {
