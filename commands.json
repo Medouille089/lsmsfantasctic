@@ -37,6 +37,19 @@
     },
     {
       "category": "functions",
+      "name": "cni",
+      "description": "Qui suis-je ?",
+      "options": [
+        {
+          "type": 6,
+          "name": "utilisateur",
+          "description": "Utilisateur",
+          "required": true
+        }
+      ]
+    },
+    {
+      "category": "functions",
       "name": "dm",
       "description": "Envoie un message en DM à l'utilisateur",
       "options": [
@@ -86,6 +99,12 @@
           "required": true
         }
       ]
+    },
+    {
+      "category": "moderation",
+      "name": "crash",
+      "description": "Faire crash le bot",
+      "default_member_permissions": 0
     },
     {
       "category": "moderation",

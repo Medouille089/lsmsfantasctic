@@ -6,7 +6,7 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     // Vérifier si la commande nécessite des permissions spéciales
-    if (commandName === 'sendembedmessage' || commandName === 'sendmessage' || commandName === 'ban' || commandName === 'kick' || commandName === 'setupticket' || commandName === 'setrole') {
+    if (commandName === 'sendembedmessage' || commandName === 'sendmessage' || commandName === 'ban' || commandName === 'kick' || commandName === 'setupticket' || commandName === 'setrole' || commandName === 'crash') {
         if (!interaction.member.permissions.has('ADMINISTRATOR')) {
             await interaction.reply({
                 content: '❌ Vous devez être administrateur pour utiliser cette commande.',
@@ -90,6 +90,18 @@ client.on('interactionCreate', async interaction => {
             await interaction.reply('Le salon spécifié n\'est pas un salon textuel.');
         }
     } 
+
+    else if (commandName === 'crash') {
+        try {
+            // Répondre à la commande avec un message éphémère
+            await interaction.reply({ content: 'L \' A B Y S S va s\'arrêter...', ephemeral: true });
+    
+            // Simuler un crash
+            process.exit(1);  // Cela arrêtera le bot en forçant un plantage
+        } catch (error) {
+            console.error('Erreur lors du crash du bot :', error);
+        }
+    }    
     
     else if (commandName === 'setrole') {
 
