@@ -1,167 +1,204 @@
 {
 
-    "permissions": [
-      {
-        "id": "1047054689423859742",
-        "type": 1,
-        "permission": true
-      }
-    ],
+  "permissions": [
+    {
+      "id": "1047054689423859742",
+      "type": 1,
+      "permission": true
+    }
+  ],
 
 
-    "commands": [
-      {
-        "category": "functions",
-        "name": "hello",
-        "description": "Hello World!"
-      },
-      {
-        "category": "functions",
-        "name": "heure",
-        "description": "Affiche l'heure actuelle"
-      },
-      {
-        "category": "functions",
-        "name": "infos",
-        "description": "Donne des informations sur le serveur"
-      },
-      {
-        "category": "functions",
-        "name": "about",
-        "description": "Donne des informations sur le bot"
-      },
-      {
-        "category": "functions",
-        "name": "help",
-        "description": "Donne la liste des commandes"
-      },
-      {
-        "category": "functions",
-        "name": "dm",
-        "description": "Envoie un message en DM à l'utilisateur",
-        "options": [
-          {
-            "type": 3,
-            "name": "message",
-            "description": "Le message à envoyer",
-            "required": true
-          }
-        ]
-      },
+  "commands": [
+    {
+      "category": "functions",
+      "name": "hello",
+      "description": "Hello World!"
+    },
+    {
+      "category": "functions",
+      "name": "heure",
+      "description": "Affiche l'heure actuelle"
+    },
+    {
+      "category": "functions",
+      "name": "infos",
+      "description": "Donne des informations sur le serveur"
+    },
+    {
+      "category": "functions",
+      "name": "about",
+      "description": "Donne des informations sur le bot"
+    },
+    {
+      "category": "functions",
+      "name": "help",
+      "description": "Donne la liste des commandes"
+    },
+    {
+      "category": "functions",
+      "name": "cni",
+      "description": "Qui suis-je ?",
+      "options": [
+        {
+          "type": 6,
+          "name": "utilisateur",
+          "description": "Utilisateur",
+          "required": true
+        }
+      ]
+    },
+    {
+      "category": "functions",
+      "name": "dm",
+      "description": "Envoie un message en DM à l'utilisateur",
+      "options": [
+        {
+          "type": 3,
+          "name": "message",
+          "description": "Le message à envoyer",
+          "required": true
+        }
+      ]
+    },
 
 
 
-      {
-        "category": "games",
-        "name": "guess",
-        "description": "Jeu de devinette : trouve le nombre entre 1 et 100"
-      },
-      {
-        "category": "games",
-        "name": "pileouface",
-        "description": "Lance une pièce et répond pile ou face"
-      },
-      {
-        "category": "games",
-        "name": "random",
-        "description": "Génère un nombre aléatoire entre 1 et 100"
-      },
+    {
+      "category": "games",
+      "name": "guess",
+      "description": "Jeu de devinette : trouve le nombre entre 1 et 100"
+    },
+    {
+      "category": "games",
+      "name": "pileouface",
+      "description": "Lance une pièce et répond pile ou face"
+    },
+    {
+      "category": "games",
+      "name": "random",
+      "description": "Génère un nombre aléatoire entre 1 et 100"
+    },
 
-
-      {
-        "category": "moderation",
-        "name": "setupticket",
-        "description": "Ouvrir un ticket",
-        "default_member_permissions": 0,
-        "options": [
-          {
-            "name": "channel",
-            "description": "Le salon où l'embed avec les boutons sera envoyé.",
-            "type": 7,
-            "required": true
-          }
-        ]
-      },
-      {
-        "category": "moderation",
-        "name": "kick",
-        "description": "Expulse un utilisateur du serveur",
-        "default_member_permissions": 0,
-        "options": [
-          {
-            "type": 6,
-            "name": "utilisateur",
-            "description": "Utilisateur à expulser",
-            "required": true
-          }
-        ]
-      },
-      {
-        "category": "moderation",
-        "name": "ban",
-        "description": "Bannit un utilisateur du serveur",
-        "default_member_permissions": 0,
-        "options": [
-          {
-            "type": 6,
-            "name": "utilisateur",
-            "description": "Utilisateur à bannir",
-            "required": true
-          }
-        ]
-      },
-      {
-        "category": "moderation",
-        "name": "sendmessage",
-        "description": "Envoie un message dans un salon",
-        "default_member_permissions": 0,
-        "options": [
-          {
-            "type": 7,
-            "name": "channel",
-            "description": "Salon où envoyer le message",
-            "required": true
-          },
-          {
-            "type": 3,
-            "name": "message",
-            "description": "Le message à envoyer",
-            "required": true
-          }
-        ]
-      },
-      {
-        "category": "moderation",
-        "name": "sendembedmessage",
-        "description": "Envoie un message embed avec un titre, une couleur et un contenu dans un salon",
-        "default_member_permissions": 0,
-        "options": [
-          {
-            "type": 7,
-            "name": "channel",
-            "description": "Salon où envoyer le message",
-            "required": true
-          },
-          {
-            "type": 3,
-            "name": "color",
-            "description": "Couleur de l'embed (format hexadécimal)",
-            "required": true
-          },
-          {
-            "type": 3,
-            "name": "title",
-            "description": "Titre de l'embed",
-            "required": true
-          },
-          {
-            "type": 3,
-            "name": "message",
-            "description": "Le message à envoyer",
-            "required": true
-          }
-        ]
-      }
-    ]
-  }
-  
+    {
+      "category": "moderation",
+      "name": "setrole",
+      "description": "Attribuer un rôle",
+      "default_member_permissions": 0,
+      "options": [
+        {
+          "name": "role",
+          "description": "Le role",
+          "type": 7,
+          "required": true
+        },
+        {
+          "type": 6,
+          "name": "utilisateur",
+          "description": "Utilisateur",
+          "required": true
+        }
+      ]
+    },
+    {
+      "category": "moderation",
+      "name": "crash",
+      "description": "Faire crash le bot",
+      "default_member_permissions": 0
+    },
+    {
+      "category": "moderation",
+      "name": "setupticket",
+      "description": "Ouvrir un ticket",
+      "default_member_permissions": 0,
+      "options": [
+        {
+          "name": "channel",
+          "description": "Le salon où l'embed avec les boutons sera envoyé.",
+          "type": 7,
+          "required": true
+        }
+      ]
+    },
+    {
+      "category": "moderation",
+      "name": "kick",
+      "description": "Expulse un utilisateur du serveur",
+      "default_member_permissions": 0,
+      "options": [
+        {
+          "type": 6,
+          "name": "utilisateur",
+          "description": "Utilisateur à expulser",
+          "required": true
+        }
+      ]
+    },
+    {
+      "category": "moderation",
+      "name": "ban",
+      "description": "Bannit un utilisateur du serveur",
+      "default_member_permissions": 0,
+      "options": [
+        {
+          "type": 6,
+          "name": "utilisateur",
+          "description": "Utilisateur à bannir",
+          "required": true
+        }
+      ]
+    },
+    {
+      "category": "moderation",
+      "name": "sendmessage",
+      "description": "Envoie un message dans un salon",
+      "default_member_permissions": 0,
+      "options": [
+        {
+          "type": 7,
+          "name": "channel",
+          "description": "Salon où envoyer le message",
+          "required": true
+        },
+        {
+          "type": 3,
+          "name": "message",
+          "description": "Le message à envoyer",
+          "required": true
+        }
+      ]
+    },
+    {
+      "category": "moderation",
+      "name": "sendembedmessage",
+      "description": "Envoie un message embed avec un titre, une couleur et un contenu dans un salon",
+      "default_member_permissions": 0,
+      "options": [
+        {
+          "type": 7,
+          "name": "channel",
+          "description": "Salon où envoyer le message",
+          "required": true
+        },
+        {
+          "type": 3,
+          "name": "color",
+          "description": "Couleur de l'embed (format hexadécimal)",
+          "required": true
+        },
+        {
+          "type": 3,
+          "name": "title",
+          "description": "Titre de l'embed",
+          "required": true
+        },
+        {
+          "type": 3,
+          "name": "message",
+          "description": "Le message à envoyer",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

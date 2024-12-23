@@ -16,12 +16,23 @@ client.once('ready', () => {
         client.user.setPresence({
             status: 'idle', // Peut être 'online', 'idle' (Inactif), 'dnd' (Do Not Disturb), 'invisible'
             activities: [{
-                name: "L ' A B Y S S",
-                type: ActivityType.Watching,  // Type d'activité (Playing, Watching, Listening, Streaming)
+                name: "Surveiller L ' A B Y S S",
+                type: ActivityType.Playing,  // Type d'activité (Playing, Watching, Listening, Streaming)
             }]
         });
 
-        console.log("🟣 Activité et statut définis avec succès !");
+        console.log("🟣 Activité et statut définis avec succès !\n");
+        function moulinSlash() {
+            const symbols = ['/', '-', '\\', '|'];  // Les symboles qui tournent
+            let index = 0; // L'index pour suivre la position du symbole
+            setInterval(() => {
+              process.stdout.write(`\r🟢 Bot actif ${symbols[index]}`);  // Affiche le symbole à la même position
+              index = (index + 1) % symbols.length;  // Passe au symbole suivant (cycle)
+            }, 250);  // Change de symbole toutes les 250 ms (ajuster la vitesse)
+          }
+          
+          // Appel de la fonction
+          moulinSlash();
     } catch (error) {
         console.error("Erreur lors de la définition de la présence, de l'activité ou du statut :", error);
     }
@@ -51,3 +62,4 @@ const setupFunctions = require('./scripts/functions.js');
 setupFunctions(client);
 
 client.login(token);
+process.stdin.resume();

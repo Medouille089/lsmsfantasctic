@@ -6,7 +6,7 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     // Vérifier si la commande nécessite des permissions spéciales
-    if (commandName === 'sendembedmessage' || commandName === 'sendmessage' || commandName === 'ban' || commandName === 'kick' || commandName === 'setupticket') {
+    if (commandName === 'sendembedmessage' || commandName === 'sendmessage' || commandName === 'ban' || commandName === 'kick' || commandName === 'setupticket' || commandName === 'setrole' || commandName === 'crash') {
         if (!interaction.member.permissions.has('ADMINISTRATOR')) {
             await interaction.reply({
                 content: '❌ Vous devez être administrateur pour utiliser cette commande.',
@@ -50,14 +50,6 @@ client.on('interactionCreate', async interaction => {
 
     // Send embed message
     else if (commandName === 'sendembedmessage') {
-        // Vérifier si l'utilisateur a les permissions d'administrateur
-        if (!interaction.member.permissions.has('Administrator')) {
-            await interaction.reply({
-                content: '❌ Vous devez être administrateur pour utiliser cette commande.',
-                ephemeral: true,
-            });
-            return;
-        }
 
         const channel = interaction.options.getChannel('channel');
         const title = interaction.options.getString('title'); 
@@ -87,14 +79,6 @@ client.on('interactionCreate', async interaction => {
 
     // Send message
     else if (commandName === 'sendmessage') {
-        // Vérifier si l'utilisateur a les permissions d'administrateur
-        if (!interaction.member.permissions.has('Administrator')) {
-            await interaction.reply({
-                content: '❌ Vous devez être administrateur pour utiliser cette commande.',
-                ephemeral: true,
-            });
-            return;
-        }
 
         const channel = interaction.options.getChannel('channel');
         const messageContent = interaction.options.getString('message');
@@ -105,8 +89,69 @@ client.on('interactionCreate', async interaction => {
         } else {
             await interaction.reply('Le salon spécifié n\'est pas un salon textuel.');
         }
-    }
+    } 
 
+    else if (commandName === 'crash') {
+        try {
+            // Répondre à la commande avec un message éphémère
+            await interaction.reply({ content: 'L \' A B Y S S va s\'arrêter...', ephemeral: true });
+    
+            // Simuler un crash
+            process.exit(1);  // Cela arrêtera le bot en forçant un plantage
+        } catch (error) {
+            console.error('Erreur lors du crash du bot :', error);
+        }
+    }    
+    
+    else if (commandName === 'setrole') {
+
+        // Récupérer les options
+        const role = interaction.options.getRole('role'); // Le rôle à attribuer
+        const user = interaction.options.getUser('user'); // L'utilisateur auquel attribuer le rôle
+
+        if (!role || !user) {
+            await interaction.reply({
+                content: '❌ Veuillez spécifier un rôle et un utilisateur.',
+                ephemeral: true,
+            });
+            return;
+        }
+
+        // Vérifier si l'utilisateur a un rôle plus élevé que le rôle à attribuer
+        if (interaction.member.roles.highest.position <= role.position) {
+            await interaction.reply({
+                content: '❌ Vous ne pouvez pas attribuer ce rôle car il est plus élevé ou égal à votre rôle.',
+                ephemeral: true,
+            });
+            return;
+        }
+
+        const member = interaction.guild.members.cache.get(user.id);
+
+        if (!member) {
+            await interaction.reply({
+                content: '❌ Utilisateur introuvable.',
+                ephemeral: true,
+            });
+            return;
+        }
+
+        // Ajouter le rôle à l'utilisateur
+        try {
+            await member.roles.add(role);
+            await interaction.reply({
+                content: `Le rôle ${role.name} a été attribué à ${user.tag}.`,
+                ephemeral: true,
+            });
+        } catch (error) {
+            console.error('Erreur lors de l\'attribution du rôle :', error);
+            await interaction.reply({
+                content: '❌ Une erreur s\'est produite lors de l\'attribution du rôle.',
+                ephemeral: true,
+            });
+        }
+    } 
+    
     else if (commandName === 'setupticket') {
         if (!interaction.member.permissions.has('ADMINISTRATOR')) {
             await interaction.reply({
@@ -166,7 +211,7 @@ client.on('interactionCreate', async interaction => {
             }
 
             try {
-                const ticketCategoryId = '1047049752077942824'; // ID de la catégorie des tickets
+                const ticketCategoryId = '1047063563665166347'; // ID de la catégorie des tickets
                 const ticketCategory = interaction.guild.channels.cache.get(ticketCategoryId);
 
                 if (!ticketCategory) {
