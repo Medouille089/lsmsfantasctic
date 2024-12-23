@@ -79,6 +79,21 @@
       "name": "random",
       "description": "Génère un nombre aléatoire entre 1 et 100"
     },
+    {
+      "category": "games",
+      "name": "handgame",
+      "description": "Choisis entre la main droite ou gauche"
+    },
+    {
+      "category": "games",
+      "name": "tictactoe",
+      "description": "Joue au Tic Tac Toe avec L ' A B Y S S"
+    },
+    {
+      "category": "games",
+      "name": "tictactoemp",
+      "description": "Joue au Tic Tac Toe avec un ami"
+    },
 
     {
       "category": "moderation",

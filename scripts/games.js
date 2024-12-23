@@ -1,3 +1,6 @@
+const { Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+
 module.exports = (client) => {
     let numberOfGuesses = 0; // Nombre de tentatives
     let startTime = 0; // Timer à 0
@@ -20,6 +23,39 @@ module.exports = (client) => {
             const result = Math.random() < 0.5 ? 'Pile' : 'Face';
             await interaction.reply(`🪙 Le résultat est : **${result}** !`);
         } 
+
+        // Jeu de main droite ou main gauche
+        else if (commandName === 'handgame') {
+            const hands = ['droite', 'gauche'];
+            const chosenHand = hands[Math.floor(Math.random() * hands.length)];
+            
+            const filter = response => {
+                return hands.includes(response.content.toLowerCase());
+            };
+            
+            await interaction.reply('Devinez dans quelle main est l\'objet : **droite** ou **gauche** ?');
+
+            const collected = await interaction.channel.awaitMessages({
+                filter,
+                max: 1,
+                time: 7500, // 15 secondes pour répondre
+                errors: ['time']
+            }).catch(() => {
+                return null;
+            });
+
+            if (collected) {
+                const userGuess = collected.first().content.toLowerCase();
+                if (userGuess === chosenHand) {
+                    await interaction.followUp(`Bravo ! Vous avez deviné correctement, l'objet était dans la main **${chosenHand}**.`);
+                } else {
+                    await interaction.followUp(`Dommage ! L'objet était en réalité dans la main **${chosenHand}**.`);
+                }
+            } else {
+                await interaction.followUp('Temps écoulé ! Vous n\'avez pas fait de choix.');
+            }
+        }
+
     
         // Guess the number
         else if (commandName === 'guess') {
@@ -146,4 +182,188 @@ module.exports = (client) => {
                 await message.reply('⏹️ Le jeu a été arrêté. Merci d\'avoir joué !');
             }
         });
+
+        client.on('interactionCreate', async interaction => {
+            if (!interaction.isCommand()) return;
+        
+            const { commandName } = interaction;
+        
+            if (commandName === 'tictactoe') {
+                await startTicTacToe(interaction, true); // Duel contre le bot
+            }
+        
+            if (commandName === 'tictactoemp') {
+                await startTicTacToe(interaction, false); // Duel entre joueurs
+            }
+        });
+        
+        async function startTicTacToe(interaction, isBotGame) {
+            // Initialisation de la grille et des variables
+            const board = Array(9).fill(null);
+            let currentPlayer = 'X'; // Joueur "X" commence toujours
+            const players = isBotGame ? { X: interaction.user, O: client.user } : { X: interaction.user, O: null };
+        
+            if (!isBotGame) {
+                await interaction.reply('Mentionnez un autre joueur pour commencer le duel.');
+                const filter = response => response.mentions.users.size === 1 && response.mentions.users.first().id !== interaction.user.id;
+                const collected = await interaction.channel.awaitMessages({ filter, max: 1, time: 30000 }).catch(() => null);
+                if (!collected) {
+                    await interaction.followUp('Aucun adversaire mentionné. Annulation de la partie.');
+                    return;
+                }
+                players.O = collected.first().mentions.users.first();
+            }
+        
+            await interaction.reply({
+                content: `Tic Tac Toe ! ${players.X} joue "X" et ${players.O} joue "O".`,
+                components: generateBoardComponents(board),
+            });
+        
+            const collector = interaction.channel.createMessageComponentCollector({ time: 60000 });
+        
+            collector.on('collect', async buttonInteraction => {
+                const player = currentPlayer === 'X' ? players.X : players.O;
+                if (buttonInteraction.user.id !== player.id) {
+                    await buttonInteraction.reply({ content: 'Ce n\'est pas votre tour !', ephemeral: true });
+                    return;
+                }
+        
+                const index = parseInt(buttonInteraction.customId.split('_')[1]);
+                if (board[index]) {
+                    await buttonInteraction.reply({ content: 'Cette case est déjà prise !', ephemeral: true });
+                    return;
+                }
+        
+                board[index] = currentPlayer;
+                const winner = checkWinner(board);
+                const isDraw = board.every(cell => cell);
+        
+                if (winner || isDraw) {
+                    collector.stop();
+                    await buttonInteraction.update({
+                        content: winner ? `${player} a gagné !` : 'Match nul !',
+                        components: generateBoardComponents(board, true),
+                    });
+                    return;
+                }
+        
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        
+                if (isBotGame && currentPlayer === 'O') {
+                    const botMove = botChooseMove(board);
+                    board[botMove] = 'O';
+                    const botWinner = checkWinner(board);
+                    const botDraw = board.every(cell => cell);
+        
+                    if (botWinner || botDraw) {
+                        collector.stop();
+                        await buttonInteraction.update({
+                            content: botWinner ? `${players.O} (bot) a gagné !` : 'Match nul !',
+                            components: generateBoardComponents(board, true),
+                        });
+                        return;
+                    }
+                    currentPlayer = 'X';
+                }
+        
+                await buttonInteraction.update({
+                    content: `${players[currentPlayer]} à toi de jouer (${currentPlayer}) !`,
+                    components: generateBoardComponents(board),
+                });
+            });
+        }
+        
+        function generateBoardComponents(board, disabled = false) {
+            const rows = [];
+            for (let i = 0; i < 3; i++) {
+                const row = new ActionRowBuilder();
+                for (let j = 0; j < 3; j++) {
+                    const index = i * 3 + j;
+                    const label = board[index] || '-'; // Valeur par défaut '-'
+                    let style = ButtonStyle.Secondary; // Par défaut gris
+        
+                    // Définir la couleur des boutons en fonction de "X" ou "O"
+                    if (board[index] === 'X') {
+                        style = ButtonStyle.Danger; // Rouge pour "X"
+                    } else if (board[index] === 'O') {
+                        style = ButtonStyle.Primary; // Bleu pour "O"
+                    }
+        
+                    row.addComponents(
+                        new ButtonBuilder()
+                            .setCustomId(`cell_${index}`)
+                            .setLabel(label) // Met à jour le label
+                            .setStyle(style) // Applique la couleur appropriée
+                            .setDisabled(disabled || !!board[index]) // Désactive le bouton si la case est déjà occupée ou si la partie est finie
+                    );
+                }
+                rows.push(row);
+            }
+            return rows;
+        }
+        
+        
+        function checkWinner(board) {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Lignes
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colonnes
+                [0, 4, 8], [2, 4, 6],           // Diagonales
+            ];
+            for (const [a, b, c] of winPatterns) {
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    return board[a];
+                }
+            }
+            return null;
+        }
+        
+        function botChooseMove(board) {
+            let bestScore = -Infinity;
+            let move = -1;
+        
+            for (let i = 0; i < board.length; i++) {
+                if (!board[i]) {
+                    board[i] = 'O'; // Simulez un coup du bot
+                    const score = minimax(board, 0, false);
+                    board[i] = null; // Annulez le coup simulé
+                    if (score > bestScore) {
+                        bestScore = score;
+                        move = i;
+                    }
+                }
+            }
+        
+            return move;
+        }
+        
+        function minimax(board, depth, isMaximizing) {
+            const winner = checkWinner(board);
+            if (winner === 'O') return 10 - depth; // Bot gagne
+            if (winner === 'X') return depth - 10; // Joueur gagne
+            if (board.every(cell => cell)) return 0; // Match nul
+        
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < board.length; i++) {
+                    if (!board[i]) {
+                        board[i] = 'O';
+                        const score = minimax(board, depth + 1, false);
+                        board[i] = null;
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < board.length; i++) {
+                    if (!board[i]) {
+                        board[i] = 'X';
+                        const score = minimax(board, depth + 1, true);
+                        board[i] = null;
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+                return bestScore;
+            }
+        }
     };
