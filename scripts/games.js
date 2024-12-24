@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType  } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 module.exports = (client) => {
@@ -23,6 +23,54 @@ module.exports = (client) => {
             const result = Math.random() < 0.5 ? 'Pile' : 'Face';
             await interaction.reply(`🪙 Le résultat est : **${result}** !`);
         } 
+
+        //Counter
+        else if (commandName === 'setcounter') {
+            const channel = interaction.options.getChannel('salon');     
+            // Vérifie si le salon est valide et de type textuel
+            if (!channel) {
+                return await interaction.reply({
+                    content: 'Aucun salon spécifié.',
+                    ephemeral: true
+                });
+            }
+        
+            if (channel.type !== ChannelType.GuildText) {
+                return await interaction.reply({
+                    content: 'Veuillez spécifier un salon textuel valide.',
+                    ephemeral: true
+                });
+            }
+        
+            // Créer un objet pour stocker l'état du compteur (dans une base de données ou un cache)
+            client.counter = client.counter || {}; // Assurer qu'un objet existe pour tous les salons
+            client.counter[channel.id] = 1; // Initialise le compteur à 1
+               
+            await interaction.reply({
+                content: `Le compteur a été initialisé dans le salon **${channel.name}**. Commencez à envoyer les nombres successifs.`,
+                ephemeral: true
+            });
+        
+            // Écoute les messages dans le salon spécifié
+            client.on('messageCreate', async (message) => {
+                if (message.channel.id === channel.id && !message.author.bot) {
+                    const expectedNumber = client.counter[channel.id];
+                               
+                    const userNumber = parseInt(message.content, 10);
+            
+                    // Si le message n'est pas un nombre ou si le nombre n'est pas correct
+                    if (isNaN(userNumber) || userNumber !== expectedNumber) {
+                        await message.delete();
+                        await message.author.send({
+                            content: 'Votre message a été supprimé car vous devez suivre les nombres successifs. Veuillez envoyer le chiffre suivant.'
+                        });
+                    } else {
+                        // Si le nombre est correct, met à jour le compteur
+                        client.counter[channel.id] += 1;
+                    }
+                }
+            });
+        }
 
         // Jeu de main droite ou main gauche
         else if (commandName === 'handgame') {
@@ -367,3 +415,4 @@ module.exports = (client) => {
             }
         }
     };
+

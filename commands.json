@@ -94,6 +94,21 @@
       "name": "tictactoemp",
       "description": "Joue au Tic Tac Toe avec un ami"
     },
+    {
+      "name": "setcounter",
+      "description": "Définit le canal pour le jeu de compteur",
+      "options": [
+            {
+                "name": "salon",
+                "description": "Le salon où l'embed avec les boutons sera envoyé.",
+                "type": 7,  
+                "required": true
+            }
+        ]
+    },
+  
+
+
 
     {
       "category": "moderation",
