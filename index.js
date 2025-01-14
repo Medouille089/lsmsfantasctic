@@ -1,19 +1,17 @@
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
-require('dotenv').config();  // Charger les variables d'environnement depuis le fichier .env
+require('dotenv').config();
 
-const token = process.env.TOKEN;  // Token
-const clientId = process.env.CLIENT_ID;  // Client ID
-const guildId = process.env.GUILD_ID;  // Server ID
+const token = process.env.TOKEN; 
+const clientId = process.env.CLIENT_ID; 
+const guildId = process.env.GUILD_ID; 
 
-// Activité du bot
 client.once('ready', () => {
     try {
         console.clear();
         console.log(`🔵 Connecté en tant que ${client.user.tag}`);
 
-        // Définir la présence du bot avec l'activité et le statut
         client.user.setPresence({
             status: 'online',
             activities: [{
@@ -25,7 +23,7 @@ client.once('ready', () => {
         console.log("🟣 Activité et statut définis avec succès !\n");
 
         function moulinSlash() {
-            const symbols = ['/', '-', '\\', '|'];  // Les symboles qui tournent
+            const symbols = ['/', '-', '\\', '|']; 
             let index = 0; 
             setInterval(() => {
                 process.stdout.write(`\r🟢 Bot actif ${symbols[index]}`);
