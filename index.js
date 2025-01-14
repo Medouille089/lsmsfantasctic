@@ -46,7 +46,7 @@ client.once('ready', () => {
     const roleId = '1060338846996385905'; 
 
     try {
-        schedule.scheduleJob('30 13 * * *', async () => {
+        schedule.scheduleJob('32 16 * * *', async () => {
             const channel = await client.channels.fetch(channelId);
             const currentDate = new Date().toLocaleDateString('fr-FR');
             const messageContent = `**FICHE DE PRESENCE:** ${currentDate}\n\nMerci de bien vouloir indiquer votre disponibilité pour ce soir en cochant ci-dessous : <@&1328663721467449376>\n\n✅ Disponible en début de soirée (avant 23h00)\n☑️ Disponible en fin de soirée (23h00 et plus)\n❌ Absent\n⌛ Ne sait pas encore\n\nMerci\nPS: Vous pouvez cocher ✅ et ☑️ si vous êtes disponible toute la soirée`;
