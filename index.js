@@ -46,29 +46,23 @@ client.once('ready', () => {
     const roleId = '1060338846996385905'; 
 
     try {
-        schedule.scheduleJob('32 16 * * *', async () => {
+        schedule.scheduleJob('57 16 * * *', async () => {
             const channel = await client.channels.fetch(channelId);
             const currentDate = new Date().toLocaleDateString('fr-FR');
             const messageContent = `**FICHE DE PRESENCE:** ${currentDate}\n\nMerci de bien vouloir indiquer votre disponibilité pour ce soir en cochant ci-dessous : <@&1328663721467449376>\n\n✅ Disponible en début de soirée (avant 23h00)\n☑️ Disponible en fin de soirée (23h00 et plus)\n❌ Absent\n⌛ Ne sait pas encore\n\nMerci\nPS: Vous pouvez cocher ✅ et ☑️ si vous êtes disponible toute la soirée`;
 
             if (channel && channel.isTextBased()) {
-                // Récupérer le dernier message envoyé par le bot
                 const lastMessage = (await channel.messages.fetch({ limit: 1 })).first();
 
                 if (lastMessage && lastMessage.author.id === client.user.id) {
-                    // Si le dernier message du bot contient "FICHE DE PRESENCE", on le modifie
                     if (lastMessage.content.includes("FICHE DE PRESENCE")) {
-                        // Extraire la date du dernier message pour ne pas la répéter
                         const lastMessageDate = lastMessage.content.match(/FICHE DE PRESENCE:\s*(\d{2}\/\d{2}\/\d{4})/);
-                        const lastMessageModified = `**FICHE DE PRESENCE:** ${lastMessageDate ? lastMessageDate[1] : currentDate}`; // Utilisation de la date existante si disponible
+                        const lastMessageModified = `**FICHE DE PRESENCE:** ${lastMessageDate ? lastMessageDate[1] : currentDate}`;
 
-                        // Modifier l'ancien message (supprimer la description)
                         await lastMessage.edit(lastMessageModified);
 
-                        // Envoyer un nouveau message avec la nouvelle date et la description
                         const newMessage = await channel.send(messageContent);
 
-                        // Ajouter les réactions au nouveau message
                         const reactions = ['✅', '☑️', '❌', '⌛'];
                         for (const reaction of reactions) {
                             await newMessage.react(reaction);
@@ -77,7 +71,6 @@ client.once('ready', () => {
                         console.log(`🔄 Message modifié et nouveau message envoyé dans le channel ${channel.name}`);
                     }
                 } else {
-                    // Si aucun message précédent du bot, envoyer un nouveau message
                     const message = await channel.send(messageContent);
                     for (const reaction of ['✅', '☑️', '❌', '⌛']) {
                         await message.react(reaction);
