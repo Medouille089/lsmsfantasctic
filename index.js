@@ -10,13 +10,14 @@ const guildId = process.env.GUILD_ID;  // Server ID
 // Activité du bot
 client.once('ready', () => {
     try {
-        console.log(`\n🔵 Connecté en tant que ${client.user.tag}`);
+        console.clear();
+        console.log(`🔵 Connecté en tant que ${client.user.tag}`);
 
         // Définir la présence du bot avec l'activité et le statut
         client.user.setPresence({
             status: 'online',
             activities: [{
-                name: "Fiche de présence",
+                name: "Checker les présences",
                 type: ActivityType.Playing,
             }]
         });
@@ -93,13 +94,6 @@ client.once('ready', () => {
         console.error('❌ Erreur lors de la configuration de la planification :', error);
     }
 });
-
-// Import des commandes et des permissions [JSON]
-const { permissions, commands } = require('./commands.json');
-
-// Script du terminal
-const { startTerminal } = require('./scripts/terminal.js');
-startTerminal(clientId, guildId, token, commands, permissions);
 
 client.login(token);
 process.stdin.resume();
