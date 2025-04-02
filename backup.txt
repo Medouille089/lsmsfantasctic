@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Intervention</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+        :root {
+            --generalColor: #880000;
+        }
+
+        body,
+        html {
+            font-family: 'DM Sans', sans-serif;
+            background: #FFF;
+            padding: 20px;
+            display: flex;
+            color: var(--generalColor);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            background: #fff;
+            padding: 50px;
+            border-radius: 8px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: auto;
+            height: 90px;
+            background: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        h1 {
+            color: var(--generalColor);
+            font-size: 30px;
+        }
+
+        .section-title,
+        label {
+            font-weight: bold;
+            color: var(--generalColor);
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            border-bottom: 2px solid var(--generalColor);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 25px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            row-gap: 25px;
+            column-gap: 15px;
+        }
+
+        input:not([type="checkbox"]),
+        textarea,
+        select {
+            width: 100%;
+            height: 40px;
+            padding: 8px 8px 8px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--generalColor);
+        }
+
+        .checkbox-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .checkbox-group input {
+            accent-color: var(--generalColor);
+            transform: scale(1.6);
+        }
+
+        .textarea-container textarea {
+            width: 100%;
+            height: 315px;
+            resize: none;
+            overflow: auto;
+            padding-top: 15px;
+
+        }
+
+        .director-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .stamp {
+            width: auto;
+            height: 170px;
+        }
+
+        label {
+            padding-right: 10px;
+        }
+
+        .section-title+.grid,
+        .section-title+.textarea-container {
+            margin-top: 5px;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #888;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            margin-top: 5px;
+        }
+
+        .btn-download {
+            display: block;
+            width: 200px;
+            margin-top: 20px;
+            padding: 10px;
+            background: var(--generalColor);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #rapportForm {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="rapportForm">
+        <div class="container" id="rapport">
+            <div class="header">
+                <img class="logo"
+                    src="https://static.wikia.nocookie.net/nopixel/images/5/59/Pillboxlogo.png/revision/latest?cb=20191209074901"
+                    alt="Logo hôpital Pillbox Hill">
+                <h1>RAPPORT D'INTERVENTION</h1>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Patient :</div>
+                <div class="grid">
+                    <label>Nom prénom<input type="text" placeholder="Doe John" id="nomPatient" required></label>
+                    <label>N° dossier<input type="text" value="INTER" placeholder="INTER0001" id="numeroDossier"
+                            required></label>
+                    <label>Date de l’intervention<input type="text" id="dateInput" placeholder="JJ/MM/AAAA"
+                            required></label>
+                    <label>Numéro de téléphone<input type="text" placeholder="(XXX) XXX-XXXX" required></label>
+                    <label>Taille<input type="text" placeholder="195cm" required></label>
+                    <label>Poids<input type="text" placeholder="95kg" required></label>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Médecin en charge :</div>
+                <div class="grid">
+                    <label>Nom du médecin
+                        <select id="medecinsSelect">
+                            <option value="">Chargement...</option>
+                        </select>
+                    </label>
+                    <label>Matricule<input type="text" placeholder="089" required></label>
+                    <label>Grade<input type="text" placeholder="Médecin" id="gradeSelect" required></label>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Intervention :</div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox"> Hôpital</label>
+                    <label><input type="checkbox"> Sur place</label>
+                    <label><input type="checkbox"> Transport</label>
+                </div>
+                <div class="grid">
+                    <label style="grid-column: span 2;">Lieu de l’intervention<input type="text"
+                            placeholder="Hôpital Pillbox Hill, Tequilala Vinewood Avenue" required></label>
+                    <label>État
+                        <select id="etat">
+                            <option>Los Santos, État de San Andreas</option>
+                            <option>Blaine County, État de San Andreas</option>
+                            <option>Paleto Bay, État de San Andreas</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section textarea-container">
+                <label>Rapport</label>
+                <textarea placeholder="Décrire l’intervention ici..." required></textarea>
+            </div>
+
+            <div class="director-section">
+                <label>Directeurs<input type="text" class="director-input" value="John DAVIS, Raul JIMENEZ"
+                        placeholder="Directeur, Co-directeur" required></label>
+                <label>N° dossier<input type="text" value="INTER" class="director-input" placeholder="INTER0001"
+                        id="numeroDossier" required></label>
+                <img src="https://i.imgur.com/1TUSHX3.png" class="stamp" alt="Cachet hôpital Pillbox Hill">
+            </div>
+
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <button type="submit" class="btn-download">Envoyer le rapport</button>
+        </div>
+    </form>
+    <script>
+        document.getElementById('rapportForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            if (!this.checkValidity()) {
+                alert("Veuillez remplir tous les champs obligatoires.");
+                return;
+            }
+
+            downloadPDF(); 
+        });
+        function convertImagesToBase64(callback) {
+            const images = document.querySelectorAll("#rapport img");
+            let imagesLoaded = 0;
+
+            images.forEach((img) => {
+                if (img.src.startsWith("data")) {
+                    imagesLoaded++;
+                    if (imagesLoaded === images.length) callback();
+                    return;
+                }
+
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+                const newImg = new Image();
+
+                newImg.crossOrigin = "Anonymous";
+                newImg.src = img.src;
+
+                newImg.onload = () => {
+                    canvas.width = newImg.width;
+                    canvas.height = newImg.height;
+                    ctx.drawImage(newImg, 0, 0);
+                    img.src = canvas.toDataURL("image/png");
+
+                    imagesLoaded++;
+                    if (imagesLoaded === images.length) callback();
+                };
+
+                newImg.onerror = () => {
+                    console.error("Impossible de charger l'image :", img.src);
+                    imagesLoaded++;
+                    if (imagesLoaded === images.length) callback();
+                };
+            });
+
+            if (images.length === 0) callback();
+        }
+
+        function sendToWebhook(pdfData, fileName) {
+            const url = 'https://discord.com/api/webhooks/1357100176426139818/OigvegZ9mSCHxZrnNNA40usaqCPZIWxu80p6jNYzN-ADU1zkcWon6dP1Mqgg9P14Pm4a';
+
+            const byteCharacters = atob(pdfData);
+            const byteArrays = [];
+
+            for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+                const slice = byteCharacters.slice(offset, offset + 1024);
+                const byteNumbers = new Array(slice.length);
+
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+
+            const blob = new Blob(byteArrays, { type: 'application/pdf' });
+            const numeroDossier = document.getElementById('numeroDossier').value;
+            const embed = {
+                "embeds": [{
+                    "title": `RAPPORT D'INTERVENTION - ${numeroDossier}`,
+                    "color": 16777215,
+                    "fields": [
+                        {
+                            "name": "**Patient**",
+                            "value": `**Nom Prénom**: ${document.querySelector('input[placeholder="Doe John"]').value}\n**N° Dossier**: ${document.querySelector('input[placeholder="INTER0001"]').value}\n**Date de l’intervention**: ${document.querySelector('input[placeholder="JJ/MM/AAAA"]').value}`
+                        },
+                        {
+                            "name": "**Médecin en charge**",
+                            "value": `**Nom Prénom**: ${document.getElementById('medecinsSelect').options[document.getElementById('medecinsSelect').selectedIndex].text}\n**Matricule**: ${document.querySelector('input[placeholder="089"]').value}\n**Grade**: ${document.getElementById('gradeSelect').value}`
+                        },
+                        {
+                            "name": "**Intervention**",
+                            "value": `**Lieu**: ${document.querySelector('input[placeholder="Hôpital Pillbox Hill, Tequilala Vinewood Avenue"]').value}\n**Région**: ${document.getElementById('etat').value}`
+                        },
+                    ],
+                    "footer": {
+                        "text": "LSMS Assistant",
+                        "timestamp": new Date().toISOString()
+                    }
+                }]
+            };
+
+
+            const formData = new FormData();
+            formData.append('payload_json', JSON.stringify(embed));
+            formData.append('file', blob, fileName);
+
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => console.log('Success:', data))
+                .catch(error => console.error('Error:', error));
+        }
+
+
+        function downloadPDF() {
+            convertImagesToBase64(() => {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const rapport = document.getElementById('rapport');
+
+                const numeroDossierInput = document.querySelector('input[placeholder="INTER0001"]');
+                const numeroDossier = numeroDossierInput ? numeroDossierInput.value : "INTER";
+
+                const nomPrenomInput = document.getElementById('nomPatient');
+                const nomPrenom = nomPrenomInput ? nomPrenomInput.value : "Nom Prénom";
+
+                const fileName = `${numeroDossier} - ${nomPrenom}.pdf`;
+
+                const rapportText = document.querySelector('textarea[placeholder="Décrire l’intervention ici..."]').value;
+
+                const formattedRapportText = rapportText.replace(/\n/g, '<br>');
+
+                const rapportDiv = document.createElement('div');
+
+                rapportDiv.innerHTML = formattedRapportText;
+
+                const rapportTextarea = document.querySelector('textarea[placeholder="Décrire l’intervention ici..."]');
+
+                const applyStyles = (textarea, div) => {
+                    const styles = window.getComputedStyle(textarea);
+                    div.style.width = styles.width;
+                    div.style.height = styles.height;
+                    div.style.padding = styles.padding;
+                    div.style.background = styles.background;
+                    div.style.border = styles.border;
+                    div.style.borderRadius = styles.borderRadius;
+                    div.style.fontSize = styles.fontSize;
+                    div.style.fontFamily = styles.fontFamily;
+                    div.style.color = styles.color;
+                    div.style.lineHeight = styles.lineHeight;
+                    div.style.boxSizing = styles.boxSizing;
+                    div.style.outline = styles.outline;
+                    div.style.whiteSpace = 'pre-wrap';
+                    div.style.resize = 'none';
+                    div.style.marginTop = '15px';
+                };
+
+                applyStyles(rapportTextarea, rapportDiv);
+
+                rapportTextarea.parentNode.replaceChild(rapportDiv, rapportTextarea);
+
+                html2canvas(rapport, { useCORS: true, allowTaint: false })
+                    .then(canvas => {
+                        const imgData = canvas.toDataURL('image/png');
+                        const imgWidth = 210;
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+                        const pdfData = pdf.output('datauristring').split(',')[1];
+
+                        sendToWebhook(pdfData, fileName);
+                    })
+                    .catch(error => console.error("Erreur lors de la génération du PDF :", error));
+
+                rapportDiv.parentNode.replaceChild(rapportTextarea, rapportDiv);
+            });
+        }
+
+        window.onload = async function () {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            const date = `${day}/${month}/${year}`;
+            document.getElementById('dateInput').value = date;
+
+            await loadMedecinsList();
+        };
+
+        async function loadMedecinsList() {
+            const select = document.getElementById('medecinsSelect');
+            select.innerHTML = '<option value="">Chargement...</option>';
+
+            try {
+                const response = await fetch('http://localhost:3000/medecins');
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    select.innerHTML = '<option value="">Aucun médecin disponible</option>';
+                } else {
+                    select.innerHTML = '';
+
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.text = 'Choisissez un médecin';
+                    select.appendChild(defaultOption);
+
+                    data.forEach((medecin) => {
+                        const option = document.createElement('option');
+                        option.value = medecin.id;
+                        option.text = medecin.displayName;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des médecins :", error);
+                select.innerHTML = '<option value="">Erreur lors du chargement des médecins</option>';
+            }
+        }
+
+        document.getElementById('medecinsSelect').addEventListener('change', async (event) => {
+            const medecinId = event.target.value;
+            console.log("Médecin sélectionné :", medecinId);
+
+            if (medecinId) {
+                try {
+                    const response = await fetch(`http://localhost:3000/medecins/${medecinId}`);
+
+                    if (!response.ok) {
+                        throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+                    }
+
+                    const medecinData = await response.json();
+                    console.log("Données du médecin :", medecinData);
+
+                    if (medecinData && medecinData.highestRole) {
+                        const gradeInput = document.getElementById('gradeSelect');
+                        gradeInput.value = medecinData.highestRole;
+                        console.log("Le champ gradeSelect est mis à jour avec le rôle :", medecinData.highestRole);
+                    } else {
+                        console.log("Aucun rôle trouvé pour ce médecin");
+                    }
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des informations du médecin :", error);
+                    alert(`Erreur : ${error.message}`);
+                }
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const numeroDossierInputs = document.querySelectorAll('input[id="numeroDossier"]');
+
+            numeroDossierInputs.forEach(input => {
+                input.addEventListener("input", function () {
+                    numeroDossierInputs.forEach(otherInput => {
+                        if (otherInput !== input) {
+                            otherInput.value = this.value;
+                        }
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>
