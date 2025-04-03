@@ -438,7 +438,7 @@
             select.innerHTML = '<option value="">Chargement...</option>';
 
             try {
-                const response = await fetch('http://localhost:3000/medecins');
+                const response = await fetch('https://c96a-37-174-211-91.ngrok-free.app/medecins');
                 const data = await response.json();
 
                 if (data.length === 0) {
