@@ -7,173 +7,7 @@
     <title>Rapport d'Intervention</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
-
-        :root {
-            --generalColor: #880000;
-        }
-
-        body,
-        html {
-            font-family: 'DM Sans', sans-serif;
-            background: #FFF;
-            padding: 20px;
-            display: flex;
-            color: var(--generalColor);
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            background: #fff;
-            padding: 50px;
-            border-radius: 8px;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            width: auto;
-            height: 90px;
-            background: #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-        }
-
-        h1 {
-            color: var(--generalColor);
-            font-size: 30px;
-        }
-
-        .section-title,
-        label {
-            font-weight: bold;
-            color: var(--generalColor);
-        }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            border-bottom: 2px solid var(--generalColor);
-            padding-bottom: 5px;
-            margin-bottom: 15px;
-            font-size: 25px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            row-gap: 25px;
-            column-gap: 15px;
-        }
-
-        input:not([type="checkbox"]),
-        textarea,
-        select {
-            width: 100%;
-            height: 40px;
-            padding: 8px 8px 8px 20px;
-            background: #f0f0f0;
-            border: none;
-            border-radius: 20px;
-            font-size: 14px;
-            outline: none;
-            box-sizing: border-box;
-            font-family: 'DM Sans', sans-serif;
-            color: var(--generalColor);
-        }
-
-        .checkbox-group {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .checkbox-group input {
-            accent-color: var(--generalColor);
-            transform: scale(1.6);
-        }
-
-        .textarea-container textarea {
-            width: 100%;
-            height: 315px;
-            resize: none;
-            overflow: auto;
-            padding-top: 15px;
-
-        }
-
-        .director-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .stamp {
-            width: auto;
-            height: 170px;
-        }
-
-        label {
-            padding-right: 10px;
-        }
-
-        .section-title+.grid,
-        .section-title+.textarea-container {
-            margin-top: 5px;
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: #888;
-        }
-
-        input[type="text"],
-        textarea,
-        select {
-            margin-top: 5px;
-        }
-
-        .btn-download {
-            display: block;
-            width: 200px;
-            margin-top: 20px;
-            padding: 10px;
-            background: var(--generalColor);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        #rapportForm {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -183,7 +17,7 @@
                 <img class="logo"
                     src="https://i.imgur.com/PayWXWi.png"
                     alt="Logo hôpital Pillbox Hill">
-                <h1>RAPPORT D'INTERVENTION TEST</h1>
+                <h1>RAPPORT D'INTERVENTION</h1>
             </div>
 
             <div class="section">
@@ -438,7 +272,7 @@
             select.innerHTML = '<option value="">Chargement...</option>';
 
             try {
-                const response = await fetch('https://c96a-37-174-211-91.ngrok-free.app/medecins');
+                const response = await fetch('members.json');
                 const data = await response.json();
 
                 if (data.length === 0) {
@@ -464,34 +298,32 @@
             }
         }
 
-        document.getElementById('medecinsSelect').addEventListener('change', async (event) => {
+        document.getElementById('medecinsSelect').addEventListener('change', function(event) {
             const medecinId = event.target.value;
             console.log("Médecin sélectionné :", medecinId);
 
             if (medecinId) {
-                try {
-                    const response = await fetch(`https://c96a-37-174-211-91.ngrok-free.app/medecins/${medecinId}`);
+                // Chercher le médecin dans la liste chargée à partir de `members.json`
+                fetch('members.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const selectedMedecin = data.find(medecin => medecin.id === medecinId);
 
-                    if (!response.ok) {
-                        throw new Error(`Erreur ${response.status}: ${response.statusText}`);
-                    }
-
-                    const medecinData = await response.json();
-                    console.log("Données du médecin :", medecinData);
-
-                    if (medecinData && medecinData.highestRole) {
-                        const gradeInput = document.getElementById('gradeSelect');
-                        gradeInput.value = medecinData.highestRole;
-                        console.log("Le champ gradeSelect est mis à jour avec le rôle :", medecinData.highestRole);
-                    } else {
-                        console.log("Aucun rôle trouvé pour ce médecin");
-                    }
-                } catch (error) {
-                    console.error("Erreur lors de la récupération des informations du médecin :", error);
-                    alert(`Erreur : ${error.message}`);
-                }
+                        if (selectedMedecin) {
+                            // Remplir automatiquement le Matricule et le Grade
+                            document.querySelector('input[placeholder="089"]').value = selectedMedecin.matricule || '';
+                            document.getElementById('gradeSelect').value = selectedMedecin.highestRole || '';
+                        } else {
+                            console.error("Médecin non trouvé");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erreur lors de la récupération des informations du médecin :", error);
+                        alert(`Erreur : ${error.message}`);
+                    });
             }
         });
+
 
         document.addEventListener("DOMContentLoaded", function () {
             const numeroDossierInputs = document.querySelectorAll('input[id="numeroDossier"]');
