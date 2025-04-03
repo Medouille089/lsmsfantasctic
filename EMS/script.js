@@ -1,3 +1,14 @@
+document.getElementById('rapportForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    if (!this.checkValidity()) {
+        alert("Veuillez remplir tous les champs obligatoires.");
+        return;
+    }
+
+    downloadPDF();
+});
+
 function convertImagesToBase64(callback) {
     const images = document.querySelectorAll("#rapport img");
     let imagesLoaded = 0;
@@ -260,31 +271,4 @@ document.getElementById('telephoneInput').addEventListener('input', function (ev
     if (value.length === 0) {
         input.value = '';
     }
-});
-
-document.getElementById('rapportForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    if (!this.checkValidity()) {
-        alert("Veuillez remplir tous les champs obligatoires.");
-        return;
-    }
-
-    document.body.classList.add('blur');
-    
-    const validationMessage = document.createElement('div');
-    validationMessage.id = 'validationMessage';
-    validationMessage.innerText = 'Le rapport a bien été envoyé.';
-    document.body.appendChild(validationMessage);
-
-    setTimeout(() => {
-        validationMessage.style.display = 'block';
-        validationMessage.style.zIndex = '9999';
-
-        setTimeout(() => {
-            location.reload();
-        }, 3000);
-    }, 100);
-    
-    downloadPDF();
 });
