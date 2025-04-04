@@ -56,16 +56,15 @@ function sendToWebhook(pdfData, fileName) {
     for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
         const slice = byteCharacters.slice(offset, offset + 1024);
         const byteNumbers = new Array(slice.length);
-
         for (let i = 0; i < slice.length; i++) {
             byteNumbers[i] = slice.charCodeAt(i);
         }
-
         const byteArray = new Uint8Array(byteNumbers);
         byteArrays.push(byteArray);
     }
 
     const blob = new Blob(byteArrays, { type: 'application/pdf' });
+
     const numeroDossier = document.getElementById('numeroDossier').value;
     const embed = {
         "embeds": [{
@@ -74,7 +73,7 @@ function sendToWebhook(pdfData, fileName) {
             "fields": [
                 {
                     "name": "**Patient**",
-                    "value": `**Nom Prénom**: ${document.getElementById('nomPatient').value}\n**N° Dossier**: ${document.getElementById('numeroDossier').value}\n**Date de l’intervention**: ${document.getElementById('dateInput').value}`
+                    "value": `**Nom Prénom**: ${document.getElementById('nomPatient').value}\n**N° Dossier**: ${numeroDossier}\n**Date de l’intervention**: ${document.getElementById('dateInput').value}`
                 },
                 {
                     "name": "**Médecin en charge**",
@@ -92,30 +91,40 @@ function sendToWebhook(pdfData, fileName) {
         }]
     };
 
-
     const formData = new FormData();
     formData.append('payload_json', JSON.stringify(embed));
     formData.append('file', blob, fileName);
+
+    // 🌀 Show loader and block interaction
+    const loader = document.getElementById('loadingOverlay');
+    loader.style.visibility = 'visible';
+    document.body.style.pointerEvents = 'none';
+    document.body.style.cursor = 'wait';
 
     fetch(url, {
         method: 'POST',
         body: formData
     })
-    .then(response => {
-        // Affiche le loader
-        document.getElementById('loadingOverlay').style.visibility = 'visible';
+        .then(response => {
+            if (response.ok) {
+                // ✅ Success, reload immediately
+                window.location.reload();
+            } else {
+                return response.json().then(err => {
+                    throw new Error(err.message || "Erreur lors de l'envoi.");
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de l’envoi du webhook :', error);
+            alert("Une erreur s'est produite lors de l'envoi du rapport.");
 
-        // Attendre 8 secondes, puis rafraîchir la page
-        setTimeout(() => {
-            window.location.reload();
-        }, 8000);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("Une erreur est survenue lors de l'envoi du rapport.");
-    });
+            // ❌ Hide loader and restore interaction
+            loader.style.visibility = 'hidden';
+            document.body.style.pointerEvents = '';
+            document.body.style.cursor = '';
+        });
 }
-
 
 function downloadPDF() {
     convertImagesToBase64(() => {
