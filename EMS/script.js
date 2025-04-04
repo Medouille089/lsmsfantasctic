@@ -189,6 +189,15 @@ async function loadMedecinsList() {
     const select = document.getElementById('medecinsSelect');
     select.innerHTML = '<option value="">Chargement...</option>';
 
+    const gradeOrder = [
+        'Directrice / Directeur',
+        'Adjoint Directeur',
+        'Chef de service',
+        'Médecin',
+        'Infirmier',
+        'Ambulancier'
+    ];
+
     try {
         const response = await fetch('members.json');
         const data = await response.json();
@@ -202,6 +211,13 @@ async function loadMedecinsList() {
             defaultOption.value = '';
             defaultOption.text = 'Choisissez un médecin';
             select.appendChild(defaultOption);
+
+            // Tri selon le grade
+            data.sort((a, b) => {
+                const gradeA = gradeOrder.indexOf(a.highestRole);
+                const gradeB = gradeOrder.indexOf(b.highestRole);
+                return gradeA - gradeB;
+            });
 
             data.forEach((medecin) => {
                 const option = document.createElement('option');
