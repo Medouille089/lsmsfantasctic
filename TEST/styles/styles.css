@@ -225,16 +225,11 @@ footer {
     visibility: hidden;
 }
 
-.spinner {
+#spinner {
     width: 50px;
-    height: 50px;
-    border: 6px solid #ccc;
-    border-top-color: var(--generalColor); /* Utilisation de la variable pour la couleur */
-    border-radius: 50%;
-    animation: spin 2s linear infinite; /* Durée de l'animation augmentée à 2s pour une rotation fluide */
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+        height: 50px;
+        border: 6px solid #ccc;
+        border-top-color: var(--generalColor);
+        border-radius: 50%; 
+        animation: spin 1s linear infinite;
 }
