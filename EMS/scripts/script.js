@@ -113,7 +113,7 @@ function downloadPDF() {
         const pdf = new jsPDF('p', 'mm', 'a4');
         const rapport = document.getElementById('rapport');
 
-        const numeroDossierInput = document.querySgetElementByIdelector('numeroDossier');
+        const numeroDossierInput = document.getElementById('numeroDossier');
         const numeroDossier = numeroDossierInput ? numeroDossierInput.value : "INTER";
 
         const nomPrenomInput = document.getElementById('nomPatient');
