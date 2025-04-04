@@ -7,8 +7,8 @@
     <title>Rapport d'Intervention</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="media/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 
 <body>
@@ -54,8 +54,7 @@
                     <label><input type="checkbox"> Transport</label>
                 </div>
                 <div class="grid">
-                    <label style="grid-column: span 2;">Lieu de l’intervention<input type="text"
-                            placeholder="Hôpital Pillbox Hill, Tequilala Vinewood Avenue" required></label>
+                    <label style="grid-column: span 2;">Lieu de l’intervention<input type="text" id="lieuInter" placeholder="Hôpital Pillbox Hill, Tequilala Vinewood Avenue" required></label>
                     <label>Région
                         <select id="etat">
                             <option>Los Santos, État de San Andreas</option>
@@ -68,14 +67,12 @@
 
             <div class="section textarea-container">
                 <label>Rapport</label>
-                <textarea placeholder="Décrire l’intervention ici..." required></textarea>
+                <textarea id="rapportText" placeholder="Décrire l’intervention ici..." required></textarea>
             </div>
 
             <div class="director-section">
-                <label>Directeurs<input type="text" class="director-input" value="John DAVIS, Raul JIMENEZ"
-                        placeholder="Directeur, Co-directeur" readonly required></label>
-                <label>N° dossier<input type="text" value="INTER" class="director-input" readonly placeholder="INTER0001"
-                        id="numeroDossier" required></label>
+                <label>Directeurs<input type="text" class="director-input" value="John DAVIS, Raul JIMENEZ" placeholder="Directeur, Co-directeur" readonly required></label>
+                <label>N° dossier<input type="text" value="INTER" class="director-input" readonly placeholder="INTER0001" id="numeroDossier" required></label>
                 <img src="https://i.imgur.com/1TUSHX3.png" class="stamp" alt="Cachet hôpital Pillbox Hill">
             </div>
 
@@ -90,7 +87,7 @@
             </div>
         </footer>
     </form>
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 
 </html>

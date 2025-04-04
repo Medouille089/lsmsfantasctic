@@ -74,15 +74,15 @@ function sendToWebhook(pdfData, fileName) {
             "fields": [
                 {
                     "name": "**Patient**",
-                    "value": `**Nom Prénom**: ${document.querySelector('input[placeholder="Doe John"]').value}\n**N° Dossier**: ${document.querySelector('input[placeholder="INTER0001"]').value}\n**Date de l’intervention**: ${document.getElementById('dateInput').value}`
+                    "value": `**Nom Prénom**: ${document.getElementById('nomPatient').value}\n**N° Dossier**: ${document.getElementById('numeroDossier').value}\n**Date de l’intervention**: ${document.getElementById('dateInput').value}`
                 },
                 {
                     "name": "**Médecin en charge**",
-                    "value": `**Nom Prénom**: ${document.getElementById('medecinsSelect').options[document.getElementById('medecinsSelect').selectedIndex].text}\n**Matricule**: ${document.querySelector('input[placeholder="089"]').value}\n**Grade**: ${document.getElementById('gradeSelect').value}`
+                    "value": `**Nom Prénom**: ${document.getElementById('medecinsSelect').options[document.getElementById('medecinsSelect').selectedIndex].text}\n**Matricule**: ${document.getElementById('matriculeSelect').value}\n**Grade**: ${document.getElementById('gradeSelect').value}`
                 },
                 {
                     "name": "**Intervention**",
-                    "value": `**Lieu**: ${document.querySelector('input[placeholder="Hôpital Pillbox Hill, Tequilala Vinewood Avenue"]').value}\n**Région**: ${document.getElementById('etat').value}`
+                    "value": `**Lieu**: ${document.getElementById('lieuInter').value}\n**Région**: ${document.getElementById('etat').value}`
                 },
             ],
             "footer": {
@@ -113,7 +113,7 @@ function downloadPDF() {
         const pdf = new jsPDF('p', 'mm', 'a4');
         const rapport = document.getElementById('rapport');
 
-        const numeroDossierInput = document.querySelector('input[placeholder="INTER0001"]');
+        const numeroDossierInput = document.querySgetElementByIdelector('numeroDossier');
         const numeroDossier = numeroDossierInput ? numeroDossierInput.value : "INTER";
 
         const nomPrenomInput = document.getElementById('nomPatient');
@@ -121,7 +121,7 @@ function downloadPDF() {
 
         const fileName = `${numeroDossier} - ${nomPrenom}.pdf`;
 
-        const rapportText = document.querySelector('textarea[placeholder="Décrire l’intervention ici..."]').value;
+        const rapportText = document.getElementById('rapportText').value;
 
         const formattedRapportText = rapportText.replace(/\n/g, '<br>');
 
@@ -129,7 +129,7 @@ function downloadPDF() {
 
         rapportDiv.innerHTML = formattedRapportText;
 
-        const rapportTextarea = document.querySelector('textarea[placeholder="Décrire l’intervention ici..."]');
+        const rapportTextarea = document.getElementById('rapportText');
 
         const applyStyles = (textarea, div) => {
             const styles = window.getComputedStyle(textarea);
@@ -199,7 +199,7 @@ async function loadMedecinsList() {
     ];
 
     try {
-        const response = await fetch('members.json');
+        const response = await fetch('data/members.json');
         const data = await response.json();
 
         if (data.length === 0) {
@@ -237,13 +237,13 @@ document.getElementById('medecinsSelect').addEventListener('change', function (e
     console.log("Médecin sélectionné :", medecinId);
 
     if (medecinId) {
-        fetch('members.json')
+        fetch('data/members.json')
             .then(response => response.json())
             .then(data => {
                 const selectedMedecin = data.find(medecin => medecin.id === medecinId);
 
                 if (selectedMedecin) {
-                    document.querySelector('input[placeholder="089"]').value = selectedMedecin.matricule || '';
+                    document.querySelector('matriculeSelect').value = selectedMedecin.matricule || '';
                     document.getElementById('gradeSelect').value = selectedMedecin.highestRole || '';
                 } else {
                     console.error("Médecin non trouvé");
