@@ -49,7 +49,7 @@ function convertImagesToBase64(callback) {
 
 function sendToWebhook(pdfData, fileName) {
     const url = 'https://discord.com/api/webhooks/1357760776269729983/IPMgOJtdl_wP0aBM1KD_UFx1ZYEjmGtTYQnfdJmQkSyGkRGX1P9V4tX75P9qumEz7KuP';
-    
+
     const byteCharacters = atob(pdfData);
     const byteArrays = [];
 
@@ -95,12 +95,9 @@ function sendToWebhook(pdfData, fileName) {
     formData.append('payload_json', JSON.stringify(embed));
     formData.append('file', blob, fileName);
 
-    // Afficher le loader ECG pendant l'envoi
+    // 🌀 Show loader and block interaction
     const loader = document.getElementById('loadingOverlay');
-    const ecgLoader = document.getElementById('ecgLoader');
-    
     loader.style.visibility = 'visible';
-    ecgLoader.style.visibility = 'visible';  // Afficher l'ECG
     document.body.style.pointerEvents = 'none';
     document.body.style.cursor = 'wait';
 
@@ -108,28 +105,26 @@ function sendToWebhook(pdfData, fileName) {
         method: 'POST',
         body: formData
     })
-    .then(response => {
-        if (response.ok) {
-            // Si la réponse est correcte, refresh la page immédiatement
-            window.location.reload();
-        } else {
-            return response.json().then(err => {
-                throw new Error(err.message || "Erreur lors de l'envoi.");
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Erreur lors de l’envoi du webhook :', error);
-        alert("Une erreur s'est produite lors de l'envoi du rapport.");
+        .then(response => {
+            if (response.ok) {
+                // ✅ Success, reload immediately
+                window.location.reload();
+            } else {
+                return response.json().then(err => {
+                    throw new Error(err.message || "Erreur lors de l'envoi.");
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de l’envoi du webhook :', error);
+            alert("Une erreur s'est produite lors de l'envoi du rapport.");
 
-        // Masquer le loader ECG en cas d'erreur
-        loader.style.visibility = 'hidden';
-        ecgLoader.style.visibility = 'hidden';
-        document.body.style.pointerEvents = '';
-        document.body.style.cursor = '';
-    });
+            // ❌ Hide loader and restore interaction
+            loader.style.visibility = 'hidden';
+            document.body.style.pointerEvents = '';
+            document.body.style.cursor = '';
+        });
 }
-    
 
 function downloadPDF() {
     convertImagesToBase64(() => {

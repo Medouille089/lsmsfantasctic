@@ -83,11 +83,21 @@
         <footer>
             <div class="footer-content">
                 <p>&copy; 2025 Hôpital Pillbox Hill - Tous droits réservés.</p>
-                <p>Développé par Mehdi KHARAMOFF | zyrkof ⸱ reubeudistingue - vTEST</p>
+                <p>Développé par Mehdi KHARAMOFF | zyrkof ⸱ reubeudistingue - v1.0.0.test</p>
             </div>
         </footer>
     </form>
-    <div id="ecgLoader" class="ecg-loader" style="visibility: hidden;"></div>
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    </style>
+
     <script src="scripts/script.js"></script>
 </body>
 
