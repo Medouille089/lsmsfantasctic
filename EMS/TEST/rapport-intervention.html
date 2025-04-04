@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Intervention</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="icon" href="media/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+    <form id="rapportForm">
+        <div class="container" id="rapport">
+            <div class="header">
+                <img class="logo"
+                    src="https://i.imgur.com/PayWXWi.png"
+                    alt="Logo hôpital Pillbox Hill">
+                <h1>RAPPORT D'INTERVENTION</h1>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Patient :</div>
+                <div class="grid">
+                    <label>Nom prénom<input type="text" placeholder="DOE John" id="nomPatient" required></label>
+                    <label>N° dossier<input type="text" value="INTER" placeholder="INTER0001" id="numeroDossier" required></label>
+                    <label>Date & Heure de l’intervention<input type="text" id="dateInput" placeholder="JJ/MM/AAAA à HH:MM" required></label>
+                    <label>Numéro de téléphone<input id="telephoneInput" type="text" placeholder="(XXX) XXX-XXXX" required></label>
+                    <label>Groupe sanguin<input type="text" placeholder="O+" required></label>
+                    <label>Poids<input type="text" placeholder="95kg" required></label>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Médecin en charge :</div>
+                <div class="grid">
+                    <label>Nom du médecin
+                        <select id="medecinsSelect">
+                            <option value="">Chargement...</option>
+                        </select>
+                    </label>
+                    <label>Matricule<input type="text" placeholder="089" id="matriculeSelect" readonly required></label>
+                    <label>Grade<input type="text" placeholder="Médecin" id="gradeSelect" readonly required></label>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Intervention :</div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox"> Hôpital</label>
+                    <label><input type="checkbox"> Sur place</label>
+                    <label><input type="checkbox"> Transport</label>
+                </div>
+                <div class="grid">
+                    <label style="grid-column: span 2;">Lieu de l’intervention<input type="text" id="lieuInter" placeholder="Hôpital Pillbox Hill, Tequilala Vinewood Avenue" required></label>
+                    <label>Région
+                        <select id="etat">
+                            <option>Los Santos, État de San Andreas</option>
+                            <option>Blaine County, État de San Andreas</option>
+                            <option>Paleto Bay, État de San Andreas</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section textarea-container">
+                <label>Rapport</label>
+                <textarea id="rapportText" placeholder="Décrire l’intervention ici..." required></textarea>
+            </div>
+
+            <div class="director-section">
+                <label>Directeurs<input type="text" class="director-input" value="John DAVIS, Raul JIMENEZ" placeholder="Directeur, Co-directeur" readonly required></label>
+                <label>N° dossier<input type="text" value="INTER" class="director-input" readonly placeholder="INTER0001" id="numeroDossier" required></label>
+                <img src="https://i.imgur.com/1TUSHX3.png" class="stamp" alt="Cachet hôpital Pillbox Hill">
+            </div>
+
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <button type="submit" class="btn-download">Envoyer le rapport</button>
+        </div>
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 Hôpital Pillbox Hill - Tous droits réservés.</p>
+                <p>Développé par Mehdi KHARAMOFF | zyrkof ⸱ reubeudistingue - v1.0.0</p>
+            </div>
+        </footer>
+    </form>
+    <div id="loadingOverlay" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    ">
+    <div class="spinner" style="
+        width: 50px;
+        height: 50px;
+        border: 6px solid #ccc;
+        border-top-color: #000;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        "></div>
+    </div>
+
+    <style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    </style>
+
+    <script src="scripts/script.js"></script>
+</body>
+
+</html>
