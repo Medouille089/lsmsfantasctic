@@ -176,7 +176,10 @@ window.onload = async function () {
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
-    const date = `${day}/${month}/${year}`;
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    const date = `${day}/${month}/${year} à ${hours}:${minutes}`;
+
     document.getElementById('dateInput').value = date;
 
     await loadMedecinsList();
