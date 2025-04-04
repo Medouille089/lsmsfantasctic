@@ -61,7 +61,7 @@
     },
     {
       "id": "377421638968541184",
-      "displayName": "Lézar | BliXow",
+      "displayName": "Lézar Morgane",
       "highestRole": "Ambulancier",
       "matricule": "090"
     },
@@ -76,6 +76,12 @@
       "displayName": "Isaac Rodriguez",
       "highestRole": "Ambulancier",
       "matricule": "023"
+    },
+    {
+      "id": "999761883076767795",
+      "displayName": "Jordan Carter",
+      "highestRole": "Ambulancier",
+      "matricule": "018"
     }
   ]
   
