@@ -243,7 +243,7 @@ document.getElementById('medecinsSelect').addEventListener('change', function (e
                 const selectedMedecin = data.find(medecin => medecin.id === medecinId);
 
                 if (selectedMedecin) {
-                    document.querySelector('matriculeSelect').value = selectedMedecin.matricule || '';
+                    document.getElementById('matriculeSelect').value = selectedMedecin.matricule || '';
                     document.getElementById('gradeSelect').value = selectedMedecin.highestRole || '';
                 } else {
                     console.error("Médecin non trouvé");
