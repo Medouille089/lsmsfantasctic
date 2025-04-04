@@ -95,11 +95,10 @@ function sendToWebhook(pdfData, fileName) {
     formData.append('payload_json', JSON.stringify(embed));
     formData.append('file', blob, fileName);
 
-    // 🌀 Show loader and block interaction
-    const loader = document.getElementById('loadingOverlay');
-    loader.style.visibility = 'visible';
-    document.body.style.pointerEvents = 'none';
-    document.body.style.cursor = 'wait';
+    const loader = document.querySelector('.ecg-loader');  // Sélectionner le loader avec la bonne classe
+    loader.style.display = 'flex';  // Afficher le loader
+    document.body.style.pointerEvents = 'none';  // Désactiver les événements de la souris
+    document.body.style.cursor = 'wait';  // Changer le curseur pour indiquer le chargement
 
     fetch(url, {
         method: 'POST',
@@ -107,7 +106,6 @@ function sendToWebhook(pdfData, fileName) {
     })
         .then(response => {
             if (response.ok) {
-                // ✅ Success, reload immediately
                 window.location.reload();
             } else {
                 return response.json().then(err => {
@@ -119,12 +117,12 @@ function sendToWebhook(pdfData, fileName) {
             console.error('Erreur lors de l’envoi du webhook :', error);
             alert("Une erreur s'est produite lors de l'envoi du rapport.");
 
-            // ❌ Hide loader and restore interaction
-            loader.style.visibility = 'hidden';
-            document.body.style.pointerEvents = '';
-            document.body.style.cursor = '';
+            loader.style.display = 'none';  // Cacher le loader en cas d'erreur
+            document.body.style.pointerEvents = '';  // Réactiver les événements de la souris
+            document.body.style.cursor = '';  // Réinitialiser le curseur
         });
 }
+
 
 
 function downloadPDF() {

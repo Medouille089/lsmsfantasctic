@@ -48,7 +48,7 @@ function convertImagesToBase64(callback) {
 }
 
 function sendToWebhook(pdfData, fileName) {
-    const url = 'https://discord.com/api/webhooks/1357766224326688819/H9AxYZeaaZa4xFU6wovdLumo2qeaPkTeACL-JR4Mgm-yVtYdUhkplS0W5r2-K2xR6wlq';
+    const url = 'https://discord.com/api/webhooks/1357760776269729983/IPMgOJtdl_wP0aBM1KD_UFx1ZYEjmGtTYQnfdJmQkSyGkRGX1P9V4tX75P9qumEz7KuP';
 
     const byteCharacters = atob(pdfData);
     const byteArrays = [];
@@ -56,16 +56,15 @@ function sendToWebhook(pdfData, fileName) {
     for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
         const slice = byteCharacters.slice(offset, offset + 1024);
         const byteNumbers = new Array(slice.length);
-
         for (let i = 0; i < slice.length; i++) {
             byteNumbers[i] = slice.charCodeAt(i);
         }
-
         const byteArray = new Uint8Array(byteNumbers);
         byteArrays.push(byteArray);
     }
 
     const blob = new Blob(byteArrays, { type: 'application/pdf' });
+
     const numeroDossier = document.getElementById('numeroDossier').value;
     const embed = {
         "embeds": [{
@@ -74,7 +73,7 @@ function sendToWebhook(pdfData, fileName) {
             "fields": [
                 {
                     "name": "**Patient**",
-                    "value": `**Nom Prénom**: ${document.getElementById('nomPatient').value}\n**N° Dossier**: ${document.getElementById('numeroDossier').value}\n**Date de l’intervention**: ${document.getElementById('dateInput').value}`
+                    "value": `**Nom Prénom**: ${document.getElementById('nomPatient').value}\n**N° Dossier**: ${numeroDossier}\n**Date de l’intervention**: ${document.getElementById('dateInput').value}`
                 },
                 {
                     "name": "**Médecin en charge**",
@@ -92,19 +91,38 @@ function sendToWebhook(pdfData, fileName) {
         }]
     };
 
-
     const formData = new FormData();
     formData.append('payload_json', JSON.stringify(embed));
     formData.append('file', blob, fileName);
+
+    const loader = document.querySelector('.ecg-loader');  
+    loader.style.display = 'flex'; 
+    document.body.style.pointerEvents = 'none';  
+    document.body.style.cursor = 'wait'; 
 
     fetch(url, {
         method: 'POST',
         body: formData
     })
-        .then(response => response.json())
-        .then(data => console.log('Success:', data))
-        .catch(error => console.error('Error:', error));
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                return response.json().then(err => {
+                    throw new Error(err.message || "Erreur lors de l'envoi.");
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de l’envoi du webhook :', error);
+            alert("Une erreur s'est produite lors de l'envoi du rapport.");
+
+            loader.style.display = 'none'; 
+            document.body.style.pointerEvents = '';  
+            document.body.style.cursor = '';  
+        });
 }
+
 
 
 function downloadPDF() {
@@ -212,7 +230,6 @@ async function loadMedecinsList() {
             defaultOption.text = 'Choisissez un médecin';
             select.appendChild(defaultOption);
 
-            // Tri selon le grade
             data.sort((a, b) => {
                 const gradeA = gradeOrder.indexOf(a.highestRole);
                 const gradeB = gradeOrder.indexOf(b.highestRole);
