@@ -74,7 +74,7 @@ function sendToWebhook(pdfData, fileName) {
             "fields": [
                 {
                     "name": "**Patient**",
-                    "value": `**Nom Prénom**: ${document.querySelector('input[placeholder="Doe John"]').value}\n**N° Dossier**: ${document.querySelector('input[placeholder="INTER0001"]').value}\n**Date de l’intervention**: ${document.querySelector('input[placeholder="JJ/MM/AAAA"]').value}`
+                    "value": `**Nom Prénom**: ${document.querySelector('input[placeholder="Doe John"]').value}\n**N° Dossier**: ${document.querySelector('input[placeholder="INTER0001"]').value}\n**Date de l’intervention**: ${document.getElementById('dateInput').value}`
                 },
                 {
                     "name": "**Médecin en charge**",
