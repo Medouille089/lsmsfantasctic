@@ -26,15 +26,21 @@ client.once('ready', () => {
     console.clear();
     console.log(`🔵 Connecté en tant que ${client.user.tag}`);
 
-    client.user.setPresence({
-        status: 'online',
-        activities: [
-            {
-                name: "Checker les présences",
-                type: ActivityType.Playing,
-            },
-        ],
-    });
+    const setBotActivity = () => {
+        client.user.setPresence({
+            status: 'online',
+            activities: [
+                {
+                    name: "Assister les EMS",
+                    type: ActivityType.Playing,
+                },
+            ],
+        });
+    };
+
+    setBotActivity();
+
+    setInterval(setBotActivity, 15 * 60 * 1000);
 
     console.log("🟣 Activité et statut définis avec succès !\n");
 
