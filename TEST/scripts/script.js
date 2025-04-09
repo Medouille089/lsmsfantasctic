@@ -48,7 +48,7 @@ function convertImagesToBase64(callback) {
 }
 
 function sendToWebhook(pdfData, fileName) {
-    const url = 'https://discord.com/api/webhooks/1358925203505287298/U3ptEO5mCnLO3-tNjz5t5L2xaQSjGR5zX6ir9oMFEr7KausW6tkxHWLBRUMez5lcqyYX';
+    const url = 'https://discord.com/api/webhooks/1358925088673763459/RrnCMJqfvq9U26F42ra1tN2s1JgHuj3xc_OYsJOmyjJNl_qkXgQR_wT4AZ7uDmVEWDxz';
 
     const byteCharacters = atob(pdfData);
     const byteArrays = [];
@@ -95,10 +95,10 @@ function sendToWebhook(pdfData, fileName) {
     formData.append('payload_json', JSON.stringify(embed));
     formData.append('file', blob, fileName);
 
-    const loader = document.querySelector('.ecg-loader');  // Sélectionner le loader avec la bonne classe
-    loader.style.display = 'flex';  // Afficher le loader
-    document.body.style.pointerEvents = 'none';  // Désactiver les événements de la souris
-    document.body.style.cursor = 'wait';  // Changer le curseur pour indiquer le chargement
+    const loader = document.querySelector('.ecg-loader');  
+    loader.style.display = 'flex'; 
+    document.body.style.pointerEvents = 'none';  
+    document.body.style.cursor = 'wait'; 
 
     fetch(url, {
         method: 'POST',
@@ -117,9 +117,9 @@ function sendToWebhook(pdfData, fileName) {
             console.error('Erreur lors de l’envoi du webhook :', error);
             alert("Une erreur s'est produite lors de l'envoi du rapport.");
 
-            loader.style.display = 'none';  // Cacher le loader en cas d'erreur
-            document.body.style.pointerEvents = '';  // Réactiver les événements de la souris
-            document.body.style.cursor = '';  // Réinitialiser le curseur
+            loader.style.display = 'none'; 
+            document.body.style.pointerEvents = '';  
+            document.body.style.cursor = '';  
         });
 }
 
@@ -229,13 +229,6 @@ async function loadMedecinsList() {
             defaultOption.value = '';
             defaultOption.text = 'Choisissez un médecin';
             select.appendChild(defaultOption);
-
-            // Tri selon le grade
-            data.sort((a, b) => {
-                const gradeA = gradeOrder.indexOf(a.highestRole);
-                const gradeB = gradeOrder.indexOf(b.highestRole);
-                return gradeA - gradeB;
-            });
 
             data.forEach((medecin) => {
                 const option = document.createElement('option');

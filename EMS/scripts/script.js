@@ -230,12 +230,6 @@ async function loadMedecinsList() {
             defaultOption.text = 'Choisissez un médecin';
             select.appendChild(defaultOption);
 
-            data.sort((a, b) => {
-                const gradeA = gradeOrder.indexOf(a.highestRole);
-                const gradeB = gradeOrder.indexOf(b.highestRole);
-                return gradeA - gradeB;
-            });
-
             data.forEach((medecin) => {
                 const option = document.createElement('option');
                 option.value = medecin.id;
