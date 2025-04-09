@@ -1,0 +1,9 @@
+{
+    "commands": [
+      {
+        "name": "lspd",
+        "description": "Créer une facture LSPD"
+      }
+    ]
+  }
+  
