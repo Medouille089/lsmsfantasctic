@@ -26,7 +26,7 @@
   {
     "id": "587311869136470035",
     "displayName": "Alphonzo McQueen",
-    "highestRole": "Infirmier",
+    "highestRole": "Médecin",
     "matricule": "086"
   },
   {
@@ -88,5 +88,11 @@
     "displayName": "Jordan Carter",
     "highestRole": "Ambulancier",
     "matricule": "018"
+  },
+  {
+    "id": "262599549334323201",
+    "displayName": "Nelson Cortez",
+    "highestRole": "Ambulancier",
+    "matricule": "057"
   }
 ]
