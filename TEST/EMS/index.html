@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <link rel="icon" href="media/favicon.ico" type="image/x-icon">
+    <title>Dashboard - LSMS Assistant</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+</head>
+<body>
+    <nav class="sidebar">
+      <a href="#" class="logo"><img src="https://i.imgur.com/PayWXWi.png" class="main-logo" alt="Logo pillbox hill"></a>
+
+      <div class="menu-content">
+        <ul class="menu-items">
+          <div class="menu-title">LSMS Menu</div>
+
+          <li class="item">
+            <a href="index.html"><i class="fa-solid fa-tachometer-alt"></i> Dashboard</a>
+          </li>
+
+          <li class="item">
+            <a href="#"><i class="fa-solid fa-users"></i> Membres</a>
+          </li>
+
+          <li class="item">
+            <div class="submenu-item">
+              <span><i class="fa-solid fa-id-card"></i> Formations</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            
+            <ul class="menu-items submenu">
+              <div class="menu-title">
+                <i class="fa-solid fa-chevron-left"></i> Formations
+              </div>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/chirurgie.md"><i class="fa-solid fa-syringe"></i> Chirurgie</a>
+              </li>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/psychologie.md"><i class="fa-solid fa-brain"></i> Psychologie</a>
+              </li>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/permis.md"><i class="fa-solid fa-id-card"></i> Permis port d'arme</a>
+              </li>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/pathologie.md"><i class="fa-solid fa-disease"></i> Pathologie</a>
+              </li>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/oncologie.md"><i class="fa-solid fa-ribbon"></i> Oncologie</a>
+              </li>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/kinesitherapie.md"><i class="fa-solid fa-dumbbell"></i> Kinésithérapie</a>
+              </li>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/ostheopathie.md"><i class="fa-solid fa-bone"></i> Osthéopathie</a>
+              </li>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/gynecologie.md"><i class="fa-solid fa-venus"></i> Gynécologie</a>
+              </li>
+              <li class="item">
+                <a href="#" data-md="/pages/formations/cardiologie.md"><i class="fa-solid fa-heart-pulse"></i> Cardiologie</a>
+              </li>              
+            </ul>
+          </li>
+
+          <li class="item">
+            <div class="submenu-item">
+              <span><i class="fa-solid fa-calendar-check"></i> Appointments</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <ul class="menu-items submenu">
+              <div class="menu-title">
+                <i class="fa-solid fa-chevron-left"></i> Appointment Management
+              </div>
+              <li class="item">
+                <a href="#"><i class="fa-solid fa-calendar-plus"></i> Schedule Appointment</a>
+              </li>
+              <li class="item">
+                <a href="#"><i class="fa-solid fa-calendar-day"></i> View Appointments</a>
+              </li>
+              <li class="item">
+                <a href="#"><i class="fa-solid fa-calendar-times"></i> Cancel Appointment</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="item">
+            <div class="submenu-item">
+              <span><i class="fa-solid fa-file-invoice"></i> Billing</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <ul class="menu-items submenu">
+              <div class="menu-title">
+                <i class="fa-solid fa-chevron-left"></i> Billing Management
+              </div>
+              <li class="item">
+                <a href="#"><i class="fa-solid fa-file-invoice-dollar"></i> Invoices</a>
+              </li>
+              <li class="item">
+                <a href="#"><i class="fa-solid fa-receipt"></i> Payment History</a>
+              </li>
+              <li class="item">
+                <a href="#"><i class="fa-solid fa-credit-card"></i> Payment Methods</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="item">
+            <a href="#"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+          </li>
+
+          <li class="item">
+            <a href="#"><i class="fa-solid fa-cog"></i> Settings</a>
+          </li>
+
+          <li class="item">
+            <a href="#"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <nav class="navbar">
+      <i class="fa-solid fa-bars" id="sidebar-close"></i>
+    </nav>
+
+    <main class="main dashboard">
+      <section class="dashboard-section">
+        <h2>Gestion Médicale</h2>
+        <div class="button-grid">
+          <button><i class="fa-solid fa-user-md"></i> Patients</button>
+          <button><i class="fa-solid fa-notes-medical"></i> Consultations</button>
+          <button><i class="fa-solid fa-id-card"></i> Fiche PPA</button>
+        </div>
+      </section>
+    
+      <section class="dashboard-section">
+        <h2>Formations Rapides</h2>
+        <div class="button-grid">
+          <button onclick="loadMarkdown('/pages/formations/chirurgie.md')"><i class="fa-solid fa-syringe"></i> Chirurgie</button>
+          <button onclick="loadMarkdown('/pages/formations/psychologie.md')"><i class="fa-solid fa-brain"></i> Psychologie</button>
+          <button onclick="loadMarkdown('/pages/formations/permis.md')"><i class="fa-solid fa-id-card"></i> PPA</button>
+        </div>
+      </section>
+    
+      <section class="dashboard-section">
+        <h2>Statistiques & Rapports</h2>
+        <div class="button-grid">
+          <button><i class="fa-solid fa-chart-line"></i> Rapports</button>
+          <button><i class="fa-solid fa-book-medical"></i> Logs</button>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      async function loadMarkdown(file) {
+        try {
+          const res = await fetch(file);
+          if (!res.ok) throw new Error(`Fichier non trouvé : ${file}`);
+          const markdown = await res.text();
+          const converter = new showdown.Converter();
+          const html = converter.makeHtml(markdown);
+          const main = document.querySelector('main');
+          main.innerHTML = '';
+          const container = document.createElement('div');
+          container.classList.add('readme-content');
+          container.innerHTML = html;
+          main.appendChild(container);
+        } catch (err) {
+          console.error(err);
+          document.querySelector('main').innerHTML = `<p style="color:red;">Erreur : ${err.message}</p>`;
+        }
+      }
+    
+      function initDynamicMarkdownLoading() {    
+        document.querySelectorAll('a[data-md]').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const file = link.getAttribute('data-md');
+            loadMarkdown(file);
+          });
+        });
+      }
+    
+      window.addEventListener('DOMContentLoaded', initDynamicMarkdownLoading);
+    </script>
+    
+    <script src="scripts/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+</body>
+</html>
