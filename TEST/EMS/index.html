@@ -9,6 +9,7 @@
     <title>Dashboard - LSMS Assistant</title>
     <link rel="stylesheet" href="styles/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
 </head>
 <body>
     <nav class="sidebar">
@@ -142,9 +143,9 @@
       <section class="dashboard-section">
         <h2>Formations Rapides</h2>
         <div class="button-grid">
-          <button onclick="loadMarkdown('/pages/formations/chirurgie.md')"><i class="fa-solid fa-syringe"></i> Chirurgie</button>
-          <button onclick="loadMarkdown('/pages/formations/psychologie.md')"><i class="fa-solid fa-brain"></i> Psychologie</button>
-          <button onclick="loadMarkdown('/pages/formations/permis.md')"><i class="fa-solid fa-id-card"></i> PPA</button>
+          <button onclick="loadMarkdown('pages/formations/chirurgie.md')"><i class="fa-solid fa-syringe"></i> Chirurgie</button>
+          <button onclick="loadMarkdown('pages/formations/psychologie.md')"><i class="fa-solid fa-brain"></i> Psychologie</button>
+          <button onclick="loadMarkdown('pages/formations/permis.md')"><i class="fa-solid fa-id-card"></i> PPA</button>
         </div>
       </section>
     
@@ -191,6 +192,5 @@
     </script>
     
     <script src="scripts/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
 </body>
 </html>
