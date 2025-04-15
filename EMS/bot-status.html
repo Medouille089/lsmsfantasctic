@@ -20,14 +20,14 @@
         html {
             font-family: 'DM Sans', sans-serif;
             background: #FFF;
-            padding: 20px;
             display: flex;
             color: var(--generalColor);
-            justify-content: center;
             align-items: center;
             flex-direction: column;
             margin: 0;
+            height: 100vh;
         }
+
 
         /* Nouveau wrapper pour les boutons */
         .button-wrapper {
@@ -64,13 +64,18 @@
             background-color: #c0392b;
         }
 
-        /* Responsive layout */
         @media (max-width: 600px) {
             .button-wrapper {
                 flex-direction: column;
                 align-items: center;
             }
+
+            button {
+                width: 80%; /* ou 100% si tu veux qu'ils prennent toute la largeur visible */
+                max-width: 300px;
+            }
         }
+
 
         footer {
             background-color: var(--generalColor);
