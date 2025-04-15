@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bot status - LSMS Assistant</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+        :root {
+        --generalColor: #880000;
+        }
+        h1 {
+        color: #880000;
+        }
+        body {
+        font-family: 'DM Sans', sans-serif;
+        background: #FFFFFF;
+        color: #fff;
+        text-align: center;
+        padding-top: 100px;
+        }
+
+        /* Nouveau wrapper pour les boutons */
+        .button-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        }
+
+        button {
+        color: #FFFFFF;
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        width: 200px;
+        }
+
+        .on {
+        background-color: #2ecc71;
+        }
+        .on:hover {
+        background-color: #27ae60;
+        }
+        .off {
+        background-color: #e74c3c;
+        }
+        .off:hover {
+        background-color: #c0392b;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 600px) {
+        .button-wrapper {
+            flex-direction: column;
+            align-items: center;
+        }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Status du bot LSMS Assistant</h1>
+
+    <div class="button-wrapper">
+        <button class="off" onclick="sendBotStatus('off')">Bot OFF</button>
+        <button class="on" onclick="sendBotStatus('on')">Bot ON</button>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Hôpital Pillbox Hill - Tous droits réservés.</p>
+            <p>Développé par Mehdi | Le Z - v1.0.0</p>
+        </div>
+    </footer>
+    <script>
+        const webhookURL = "https://discord.com/api/webhooks/1361672545660834024/Lj8glwPHf2UasJEHzLQ9aXjSKH0EVgtysY2As7Fc-1izyH26STWsi6UL2GM5q8FfWCQT"; // ← Remplace par ton URL
+
+        function sendBotStatus(status) {
+            let embed;
+            if (status === "on") {
+                embed = {
+                    title: "Bot Status",
+                    description: "> 🟢 ON",
+                    color: 0x2ecc71 // vert
+                };
+            } else {
+                embed = {
+                    title: "Bot Status",
+                    description: "> 🔴 OFF",
+                    color: 0xe74c3c // rouge
+                };
+            }
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    embeds: [embed],
+                    username: "LSMS bot status"
+                })
+            }).then(response => {
+                if (response.ok) {
+                    console.log("Message envoyé !");
+                } else {
+                    alert("Erreur lors de l'envoi.");
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
