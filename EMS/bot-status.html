@@ -79,41 +79,54 @@
         </div>
     </footer>
     <script>
-        const webhookURL = "https://discord.com/api/webhooks/1361672545660834024/Lj8glwPHf2UasJEHzLQ9aXjSKH0EVgtysY2As7Fc-1izyH26STWsi6UL2GM5q8FfWCQT"; // ← Remplace par ton URL
+<script>
+    const webhookURL = "https://discord.com/api/webhooks/1361672545660834024/Lj8glwPHf2UasJEHzLQ9aXjSKH0EVgtysY2As7Fc-1izyH26STWsi6UL2GM5q8FfWCQT";
 
-        function sendBotStatus(status) {
-            let embed;
-            if (status === "on") {
-                embed = {
-                    title: "Bot Status",
-                    description: "> 🟢 ON",
-                    color: 0x2ecc71 // vert
-                };
-            } else {
-                embed = {
-                    title: "Bot Status",
-                    description: "> 🔴 OFF",
-                    color: 0xe74c3c // rouge
-                };
-            }
+    function sendBotStatus(status) {
+        let embed;
+        const now = new Date().toLocaleString('fr-FR');
 
-            fetch(webhookURL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    embeds: [embed],
-                    username: "LSMS bot status"
-                })
-            }).then(response => {
-                if (response.ok) {
-                    console.log("Message envoyé !");
-                } else {
-                    alert("Erreur lors de l'envoi.");
+        if (status === "on") {
+            embed = {
+                title: "Bot Status",
+                description: "> 🟢 ON",
+                color: 0x2ecc71,
+                footer: {
+                    text: `LSMS Assistant • Envoyé le ${now}`,
+                    icon_url: "https://i.imgur.com/2SgGXHJ.png"
                 }
-            });
+            };
+        } else {
+            embed = {
+                title: "Bot Status",
+                description: "> 🔴 OFF",
+                color: 0xe74c3c,
+                footer: {
+                    text: `LSMS Assistant • Envoyé le ${now}`,
+                    icon_url: "https://i.imgur.com/2SgGXHJ.png"
+                }
+            };
         }
+
+        fetch(webhookURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                embeds: [embed],
+                username: "LSMS bot status"
+            })
+        }).then(response => {
+            if (response.ok) {
+                console.log("continue");
+            } else {
+                alert("Erreur lors de l'envoi.");
+            }
+        });
+    }
+</script>
+
     </script>
 
 </body>
