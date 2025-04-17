@@ -6,6 +6,12 @@
     "matricule": "089"
   },
   {
+    "id": "707908275290505259",
+    "displayName": "Aziz Makraoui",
+    "highestRole": "Ambulancier",
+    "matricule": "031"
+  },
+  {
     "id": "701064214130982942",
     "displayName": "John Owens",
     "highestRole": "Médecin",
@@ -16,12 +22,6 @@
     "displayName": "Eden Blaircraft",
     "highestRole": "Chef Médecin",
     "matricule": "022"
-  },
-  {
-    "id": "644614081961000961",
-    "displayName": "Thomas Eiserte",
-    "highestRole": "Ambulancier",
-    "matricule": "027"
   },
   {
     "id": "587311869136470035",
@@ -52,12 +52,6 @@
     "displayName": "Liv Clayton",
     "highestRole": "Chef De Service",
     "matricule": "008"
-  },
-  {
-    "id": "868413321861279744",
-    "displayName": "Anna Blaircraft",
-    "highestRole": "Infirmier",
-    "matricule": "030"
   },
   {
     "id": "377421638968541184",
