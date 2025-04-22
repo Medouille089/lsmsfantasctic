@@ -189,6 +189,11 @@
             if (input.value.trim()) {
                 const li = document.createElement("li");
                 li.textContent = `> - ${input.value}`;
+                li.addEventListener("click", (e) => {
+                    e.target.remove();
+                    updatePreview();
+                });
+
                 legalList.appendChild(li);
                 input.value = "";
                 input.focus();
@@ -201,12 +206,18 @@
             if (input.value.trim()) {
                 const li = document.createElement("li");
                 li.textContent = `> - ${input.value}`;
+                li.addEventListener("click", (e) => {
+                    e.target.remove();
+                    updatePreview();
+                });
+
                 illegalList.appendChild(li);
                 input.value = "";
                 input.focus();
                 updatePreview();
             }
         }
+
 
         function formatHour(h, m) {
             return parseInt(m) === 0 ? `${h}H` : `${h}H${m}`;
