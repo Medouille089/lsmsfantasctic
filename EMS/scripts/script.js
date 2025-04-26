@@ -87,10 +87,7 @@ function sendToWebhook(pdfData, fileName) {
             "footer": {
                 "text": "LSMS Assistant",
                 "timestamp": new Date().toISOString()
-                .setFooter({ text: 'LSMS Assistant', iconURL: 'https://i.imgur.com/0zowuMU.png' })
-                .setTimestamp()
             }
-
         }]
     };
 
