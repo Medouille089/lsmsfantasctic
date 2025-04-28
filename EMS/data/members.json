@@ -6,15 +6,9 @@
     "matricule": "089"
   },
   {
-    "id": "707908275290505259",
-    "displayName": "Aziz Makraoui",
-    "highestRole": "Ambulancier",
-    "matricule": "031"
-  },
-  {
     "id": "701064214130982942",
     "displayName": "John Owens",
-    "highestRole": "Médecin",
+    "highestRole": "Ambulancier",
     "matricule": "021"
   },
   {
@@ -26,7 +20,7 @@
   {
     "id": "587311869136470035",
     "displayName": "Alphonzo McQueen",
-    "highestRole": "Médecin",
+    "highestRole": "Ambulancier",
     "matricule": "086"
   },
   {
@@ -60,12 +54,6 @@
     "matricule": "047"
   },
   {
-    "id": "1057682646156722186",
-    "displayName": "Isaac Rodriguez",
-    "highestRole": "Ambulancier",
-    "matricule": "023"
-  },
-  {
     "id": "317577297026875392",
     "displayName": "Tiago Hernandez",
     "highestRole": "Infirmier",
@@ -78,15 +66,9 @@
     "matricule": "018"
   },
   {
-    "id": "262599549334323201",
-    "displayName": "Nelson Cortez",
-    "highestRole": "Ambulancier",
-    "matricule": "057"
-  },
-  {
     "id": "1184571142745362575",
     "displayName": "Mellie Reed",
-    "highestRole": "Ambulancier",
+    "highestRole": "Infirmier",
     "matricule": "069"
   },
   {
@@ -94,5 +76,11 @@
     "displayName": "Zack Alderson",
     "highestRole": "Ambulancier",
     "matricule": "099"
+  },
+  {
+    "id": "1182081709525704789",
+    "displayName": "Anderson Milers",
+    "highestRole": "Ambulancier",
+    "matricule": "004"
   }
 ]
